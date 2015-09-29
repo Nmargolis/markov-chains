@@ -1,4 +1,5 @@
 from random import choice
+import sys
 
 
 def open_and_read_file(file_path):
@@ -11,7 +12,7 @@ def open_and_read_file(file_path):
     file_object = open(file_path)
     text = file_object.read()
     text = text.strip()
-    
+
     return text
 
 
@@ -83,7 +84,7 @@ def make_text(chains):
     return text
 
 
-input_path = "zen_of_python.txt"
+input_path = sys.argv[1]
 # Why did the stars in zen of python break this?
 
 # Open the file and turn it into one long string

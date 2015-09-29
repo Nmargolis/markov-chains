@@ -11,7 +11,7 @@ def open_and_read_file(file_path):
     file_object = open(file_path)
     text = file_object.read()
     text = text.strip()
-
+    
     return text
 
 
@@ -83,7 +83,8 @@ def make_text(chains):
     return text
 
 
-input_path = "green-eggs.txt"
+input_path = "zen_of_python.txt"
+# Why did the stars in zen of python break this?
 
 # Open the file and turn it into one long string
 input_text = open_and_read_file(input_path)

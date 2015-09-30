@@ -34,13 +34,20 @@ def make_chains(text_string, n): # second argument will be n
     text_list = text_string.split()
 
     tup_set = set()
-    for i in range(len(text_list)-(n-1)): #Adjust this to n-1
-        #create a list called add_to_tuple and populate it with text_list[i]... text_list[n-1]
-        #slice of text_list that is n long
-        #tuple(slice of text_list)
+
+    # Loop over text_list n-1 times to populate tup_set with tuples of n length
+    for i in range(len(text_list)-(n-1)):
+        # Add a tuple comprised of a slice of text_list that is n items long to the tup_set
         tup_set.add(tuple(text_list[i:i+n]))
 
-        # tup_set.add((text_list[i], text_list[i+1])) # add add_to_tuple
+
+    # hello there joel hello there cynthia hello there katie
+    # (hello, there), (there, joel)
+
+
+
+    # (hello, there) = joel
+    # (there, joel) = hello
 
     # Pseudo code:
     # loop through set of tuples
@@ -56,19 +63,20 @@ def make_chains(text_string, n): # second argument will be n
     for tup in tup_set:
         key = tup
         value = []
+        # counter keeps track of how far to slice the text_list
         counter = n
         
         for index_of_word in range(len(text_list)-n):
-            # if a slice of the list from index to counter is equal to tup
+            # if a slice of the list from index to counter (converted to a tuple)
+            #is equal to tup
             if tuple(text_list[index_of_word:counter]) == tup:
-                #Add the next word to the value associated with tup
-                value.append(text_list[index_of_word+(n)])
+                #Add the next word after the tuple to the value associated with tup
+                value.append(text_list[index_of_word+n])
               
             counter += 1
 
         chains[key] = value
 
-    print chains
     return chains
 
 
@@ -80,21 +88,26 @@ def make_text(chains, n):
 
     first_ngram = choice(chains.keys())
 
+    # print 'first ngram: ', first_ngram
+
     for i in range(n):
-        text = text + ' ' + first_ngram[i]   
+        text = text + ' ' + first_ngram[i]
+    # text = text + 'FIRST ONE'  
 
     while True:
         try:
+            # Choose and add the next word
             word_to_add = choice(chains.get(first_ngram))
-            text = text + ' ' + word_to_add
+            text = text + ' ' + word_to_add #+ '!!!!'
             # Create the next pair for the next iteration of while loop
-            print "slice: ", first_ngram[1:n]
+            # print "slice: ", first_ngram[1:n]
 
+            # Create the next ngram from the last two in first_ngram + next word
             ngram_list = list(first_ngram[1:n])
             ngram_list.append(word_to_add)
 
             first_ngram = tuple(ngram_list)
-            print "new ngram: ", first_ngram
+            # print "new ngram: ", first_ngram
 
 
         # If we reach pair with no words after it, stop
@@ -107,14 +120,15 @@ def make_text(chains, n):
 input_path = sys.argv[1]
 # Why did the stars in zen of python break this?
 
+# n = sys.argv[2]
 # Open the file and turn it into one long string
 input_text = open_and_read_file(input_path)
 
 # Get a Markov chain
-chains = make_chains(input_text, 3)
+chains = make_chains(input_text, 4)
 
 # Produce random text
-random_text = make_text(chains, 3)
+random_text = make_text(chains, 4)
 
 print random_text
 
